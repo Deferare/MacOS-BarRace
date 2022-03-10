@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="mac" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="Stack View standard spacing" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="AnimationExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillEqually" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="RXy-Ox-fYs">
+                                <rect key="frame" x="25" y="50" width="1795" height="980"/>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GDP by contryasda" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DBg-kH-Z9F">
+                                <rect key="frame" x="1553" y="989" width="297.5" height="41.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="35"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1995.06" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eEx-v4-di5">
+                                <rect key="frame" x="1580" y="896" width="270" height="82.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="70"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="RXy-Ox-fYs" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="50" id="1Nf-zy-8E1"/>
+                            <constraint firstAttribute="bottom" secondItem="RXy-Ox-fYs" secondAttribute="bottom" constant="50" id="1Rl-AF-Bzz"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="eEx-v4-di5" secondAttribute="trailing" constant="70" id="Dqk-cy-Vog"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="RXy-Ox-fYs" secondAttribute="trailing" constant="100" id="Ltb-3c-k5I"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DBg-kH-Z9F" secondAttribute="trailing" constant="70" id="Pd6-UJ-CZc"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DBg-kH-Z9F" secondAttribute="bottom" constant="50" id="Q2c-NH-4B5"/>
+                            <constraint firstItem="DBg-kH-Z9F" firstAttribute="top" secondItem="eEx-v4-di5" secondAttribute="bottom" constant="10" id="e7t-Pf-guL"/>
+                            <constraint firstItem="eEx-v4-di5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" priority="900" constant="1580" id="v1g-1f-JUR"/>
+                            <constraint firstItem="RXy-Ox-fYs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="wgw-FK-luj"/>
+                        </constraints>
+                    </view>
+                    <size key="freeformSize" width="1920" height="1080"/>
+                    <connections>
+                        <outlet property="stackView" destination="RXy-Ox-fYs" id="ljf-Qh-KPv"/>
+                        <outlet property="year" destination="eEx-v4-di5" id="YIM-dN-KGn"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-6.75" y="137"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>
