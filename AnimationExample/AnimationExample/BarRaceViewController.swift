@@ -8,12 +8,15 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController {
+class BarRaceViewController: UIViewController {
+    
+    
     
     @IBOutlet var stackView:UIStackView!
     @IBOutlet var year:UILabel!
     
-    var datas:Array<Float16> = []
+    var datas:Array<CGFloat> = []
+    var reciveDatas:Any!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,14 +26,14 @@ class ViewController: UIViewController {
         
         // Data set - Test
         for _ in 0...25{
-            let r = Float16.random(in: 100...1000)
+            let r = CGFloat.random(in: 100...1000)
             self.datas.append(r)
         }
         self.createSetView()
     }
 }
 
-extension ViewController{
+extension BarRaceViewController{
 
     
     func createSetView(){
@@ -110,9 +113,9 @@ extension ViewController{
         
         // Value changing - Test
         Timer.scheduledTimer(withTimeInterval: -1, repeats: true){_ in
-            var changeValues = [Float16]()
+            var changeValues = [CGFloat]()
             for i in 0..<self.datas.count{
-                let ran = Float16.random(in: self.datas[i]-1...self.datas[i]+1)
+                let ran = CGFloat.random(in: self.datas[i]-1...self.datas[i]+1)
                 changeValues.append(ran)
             }
             for i in 0..<self.datas.count{
@@ -121,18 +124,18 @@ extension ViewController{
                 UIViewPropertyAnimator(duration: 1, curve: .easeOut){
                     self.stackView.arrangedSubviews[i].constraints[0].constant *= CGFloat(widthBias)
                     let labelV = self.stackView.arrangedSubviews[i].subviews[1] as! UILabel
-                    labelV.text = "\(Float16(labelV.text!)! * Float16(widthBias))"
+                    labelV.text = "\(Float(labelV.text!)! * Float(widthBias))"
                     self.stackView.layoutIfNeeded()
                 }.startAnimation()
             }
         }
         
         // Bar scale adjust.
-        Timer.scheduledTimer(withTimeInterval: -1, repeats: true) {_ in
-            for i in 0..<self.datas.count{
-                
-            }
-        }
+//        Timer.scheduledTimer(withTimeInterval: -1, repeats: true) {_ in
+//            for i in 0..<self.datas.count{
+//
+//            }
+//        }
     }
 }
 
