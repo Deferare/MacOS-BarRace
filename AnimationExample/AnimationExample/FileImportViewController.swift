@@ -10,7 +10,7 @@ import Foundation
 import UniformTypeIdentifiers
 
 class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
-    var importDatas = [Any]()
+    var importDatas = [[Any]]()
     
     @IBOutlet var importBtn:UIButton!
     var docuPickerVC:UIDocumentPickerViewController!
@@ -25,7 +25,7 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let VC = segue.destination as? BarRaceViewController else {return}
-        VC.reciveDatas = self.importDatas
+        VC.recive = self.importDatas
     }
 }
 
@@ -52,7 +52,13 @@ extension FileImportViewController{
                 let fullText2 = fullText.split(separator: "\r\n")
                 for tex in fullText2{
                     let crnt = tex.split(separator: ",")
-                    self.importDatas.append(crnt)
+                    var tmps = [String]()
+                    for crnt in crnt {
+                        if crnt != ","{
+                            tmps.append(String(crnt))
+                        }
+                    }
+                    self.importDatas.append(tmps)
                 }
                 print(self.importDatas)
                 self.performSegue(withIdentifier: "Entry", sender: nil)

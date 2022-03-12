@@ -15,8 +15,8 @@ class BarRaceViewController: UIViewController {
     @IBOutlet var stackView:UIStackView!
     @IBOutlet var year:UILabel!
     
-    var datas:Array<CGFloat> = []
-    var reciveDatas:Any!
+    var datas:[[String]]!
+    var recive:[[Any]]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,11 +24,16 @@ class BarRaceViewController: UIViewController {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(self.realtimeStart))
         self.stackView.addGestureRecognizer(gesture)
         
-        // Data set - Test
-        for _ in 0...25{
-            let r = CGFloat.random(in: 100...1000)
-            self.datas.append(r)
-        }
+        
+        self.datas = (self.recive as! [[String]])
+        
+//        self.createSetView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        print("@@@@@@@@@@@@@")
+        print(self.datas)
         self.createSetView()
     }
 }
@@ -37,7 +42,7 @@ extension BarRaceViewController{
 
     
     func createSetView(){
-        for i in 0..<self.datas.count{
+        for i in 1..<self.datas![1].count{
             let barView: UIView = {
                 let view = UIView()
                 view.backgroundColor = UIColor(red: CGFloat.random(in: 0.2...0.8),
@@ -45,10 +50,15 @@ extension BarRaceViewController{
                                                   blue: CGFloat.random(in: 0.2...0.8),
                                                   alpha: 1)
                 view.translatesAutoresizingMaskIntoConstraints = false
-                view.widthAnchor.constraint(equalToConstant: CGFloat(self.datas[i])).isActive = true
+                let a = CGFloat(Float(self.datas![1][i])!)
+                print("a: ", a)
+                view.widthAnchor.constraint(equalToConstant: a/5).isActive = true
+                
+                
                 let nameLabel:UILabel = {
                     let LV = UILabel()
-                    LV.text = "Apple"
+                    LV.text = "\(self.datas[0][i])"
+                    
                     LV.font = .systemFont(ofSize: 15, weight: .semibold)
                     LV.textAlignment = .left
                     return LV
@@ -63,7 +73,7 @@ extension BarRaceViewController{
                 
                 let valueLable:UILabel = {
                     let LV = UILabel()
-                    LV.text = "\(self.datas[i])"
+                    LV.text = "\(self.datas![1][i])"
                     LV.font = .systemFont(ofSize: 15, weight: .regular)
                     LV.textAlignment = .left
                     LV.frame.size.width = 50
@@ -91,11 +101,12 @@ extension BarRaceViewController{
     @objc func realtimeStart(){
         
         // Bar sorting.
-        var bias = 0
+        var bias = 1
         Timer.scheduledTimer(withTimeInterval: -1, repeats: true) { timer in
-            for i in bias..<self.datas.count-1{
+            for i in bias..<self.datas[0].count-1{
                 let leftW = self.stackView.arrangedSubviews[i].constraints[0].constant
-                for j in i+1..<self.datas.count{
+                print(leftW)
+                for j in i+1..<self.datas[0].count{
                     let rightW = self.stackView.arrangedSubviews[j].constraints[0].constant
                     if leftW < rightW {
                         UIViewPropertyAnimator(duration: 0.5, curve: .easeOut){
@@ -108,25 +119,24 @@ extension BarRaceViewController{
                 }
             }
             bias += 1
-            if bias == self.datas.count{bias = 0}
+            if bias == self.datas[0].count{bias = 1}
         }
         
         // Value changing - Test
-        Timer.scheduledTimer(withTimeInterval: -1, repeats: true){_ in
-            var changeValues = [CGFloat]()
-            for i in 0..<self.datas.count{
-                let ran = CGFloat.random(in: self.datas[i]-1...self.datas[i]+1)
-                changeValues.append(ran)
-            }
-            for i in 0..<self.datas.count{
-                let widthBias = changeValues[i]/self.datas[i]
-                self.datas[i] *= widthBias
-                UIViewPropertyAnimator(duration: 1, curve: .easeOut){
-                    self.stackView.arrangedSubviews[i].constraints[0].constant *= CGFloat(widthBias)
-                    let labelV = self.stackView.arrangedSubviews[i].subviews[1] as! UILabel
-                    labelV.text = "\(Float(labelV.text!)! * Float(widthBias))"
-                    self.stackView.layoutIfNeeded()
-                }.startAnimation()
+        Timer.scheduledTimer(withTimeInterval: 1, repeats: true){_ in
+            for i in 2..<self.datas.count{
+                for j in 1..<self.datas[0].count{
+                    guard let among = self.datas[i][j] as? CGFloat else{return}
+                    guard let new = self.datas[i-1][j] as? CGFloat else{return}
+                    let widthBias = among/new
+                    self.datas[i][j] = String(among + new)
+                    UIViewPropertyAnimator(duration: 1, curve: .easeOut){
+                        self.stackView.arrangedSubviews[i].constraints[0].constant *= CGFloat(widthBias)
+                        let labelV = self.stackView.arrangedSubviews[i].subviews[1] as! UILabel
+                        labelV.text = "\(Float(labelV.text!)! * Float(widthBias))"
+                        self.stackView.layoutIfNeeded()
+                    }.startAnimation()
+                }
             }
         }
         
