@@ -10,9 +10,13 @@ import Foundation
 import UniformTypeIdentifiers
 
 class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
-    var importDatas = [[Any]]()
     
+    @IBOutlet var typeSeg:UISegmentedControl!
+    @IBOutlet var timeSeg:UISegmentedControl!
     @IBOutlet var importBtn:UIButton!
+    
+    
+    var importDatas = [[Any]]()
     var docuPickerVC:UIDocumentPickerViewController!
     
     override func viewDidLoad() {
@@ -25,7 +29,12 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let VC = segue.destination as? BarRaceViewController else {return}
-        VC.recive = self.importDatas
+        VC.datas = self.importDatas
+        VC.dType = self.typeSeg.selectedSegmentIndex
+        let selec = self.timeSeg.selectedSegmentIndex
+        if selec == 0 {VC.timeBias = 50}
+        else if selec == 1 {VC.timeBias = 100}
+        else if selec == 2 {VC.timeBias = 150}
     }
 }
 
@@ -48,19 +57,27 @@ extension FileImportViewController{
             do {
                 let data = try Data(contentsOf:url)
                 let attStr = try NSAttributedString(data: data, documentAttributes: .none)
-                let fullText = attStr.string
-                let fullText2 = fullText.split(separator: "\r\n")
-                for tex in fullText2{
-                    let crnt = tex.split(separator: ",")
-                    var tmps = [String]()
-                    for crnt in crnt {
-                        if crnt != ","{
-                            tmps.append(String(crnt))
+                let dataText = attStr.string
+                let dataText2 = dataText.split(separator: "\r\n")
+                
+                for i in 0..<dataText2.count{
+                    let crnt = dataText2[i].split(separator: ",")
+                    var crnt2 = [Any]()
+                    if i != 0{
+                        for j in 0..<crnt.count{
+                            if j != 0{
+                                crnt2.append(Float(crnt[j])!)
+                            }else{
+                                let date = String(crnt[j])
+                                crnt2.append(Date(date))
+                            }
                         }
+                    } else{
+                        crnt2 = crnt.map {String($0)}
                     }
-                    self.importDatas.append(tmps)
+                    self.importDatas.append(crnt2)
                 }
-                print(self.importDatas)
+//                print(self.importDatas)
                 self.performSegue(withIdentifier: "Entry", sender: nil)
             }catch {print(error.localizedDescription)}
         }
@@ -69,4 +86,14 @@ extension FileImportViewController{
 
 struct TestData: Codable{
     var Untitled:Dictionary<String,String>
+}
+
+
+extension Date{
+    init(_ dateString:String) {
+        let dateStringFormatter = DateFormatter()
+        dateStringFormatter.dateFormat = "yyyy-MM-dd-HH"
+        let date = dateStringFormatter.date(from: dateString)!
+        self = date
+    }
 }

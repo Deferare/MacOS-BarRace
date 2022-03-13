@@ -18,38 +18,68 @@
                         <rect key="frame" x="0.0" y="0.0" width="1920" height="1080"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIM-JN-TWF">
-                                <rect key="frame" x="885" y="515" width="150" height="50"/>
-                                <color key="backgroundColor" name="AccentColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="7GK-4J-kIO"/>
-                                    <constraint firstAttribute="height" constant="50" id="7Xj-UY-y57"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
-                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" title="Import file">
-                                    <color key="titleColor" red="0.94926089049999995" green="0.94931072000000005" blue="0.96960908170000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <buttonConfiguration key="configuration" style="plain" title="Import file">
-                                    <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
-                                    <color key="baseForegroundColor" red="0.94926089049999995" green="0.94931072000000005" blue="0.96960908170000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </buttonConfiguration>
-                                <connections>
-                                    <action selector="importBtnAction:" destination="q2h-rm-KsX" eventType="touchUpInside" id="ySe-Qa-u5J"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="35" translatesAutoresizingMaskIntoConstraints="NO" id="9FX-Af-EjM">
+                                <rect key="frame" x="810" y="430" width="300" height="220"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="Vvg-RB-5xe">
+                                        <rect key="frame" x="0.0" y="0.0" width="300" height="51"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="6cy-4g-SWl"/>
+                                            <constraint firstAttribute="width" constant="300" id="qFn-II-ZJD"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="Int"/>
+                                            <segment title="Float"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" showsMenuAsPrimaryAction="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="2Fr-Ok-Mve">
+                                        <rect key="frame" x="0.0" y="85" width="300" height="51"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="XSw-28-KAM"/>
+                                            <constraint firstAttribute="width" constant="300" id="oGd-YE-fiy"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="3m"/>
+                                            <segment title="5m"/>
+                                            <segment title="10m"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dIM-JN-TWF">
+                                        <rect key="frame" x="0.0" y="170" width="300" height="50"/>
+                                        <color key="backgroundColor" name="AccentColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="50" id="gi8-vr-Nhs"/>
+                                            <constraint firstAttribute="width" constant="300" id="ngM-6V-ZrM"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="15"/>
+                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                        <state key="normal" title="Import file">
+                                            <color key="titleColor" red="0.94926089049999995" green="0.94931072000000005" blue="0.96960908170000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <buttonConfiguration key="configuration" style="plain" title="Import file">
+                                            <fontDescription key="titleFontDescription" type="system" weight="semibold" pointSize="15"/>
+                                            <color key="baseForegroundColor" red="0.94926089049999995" green="0.94931072000000005" blue="0.96960908170000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </buttonConfiguration>
+                                        <connections>
+                                            <action selector="importBtnAction:" destination="q2h-rm-KsX" eventType="touchUpInside" id="ySe-Qa-u5J"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="l0s-zg-aoq"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="dIM-JN-TWF" firstAttribute="centerY" secondItem="wQZ-IS-g1k" secondAttribute="centerY" id="9lN-SA-Lb8"/>
-                            <constraint firstItem="dIM-JN-TWF" firstAttribute="centerX" secondItem="wQZ-IS-g1k" secondAttribute="centerX" id="vPl-cc-V0x"/>
+                            <constraint firstItem="9FX-Af-EjM" firstAttribute="centerY" secondItem="wQZ-IS-g1k" secondAttribute="centerY" id="dd3-9c-t2I"/>
+                            <constraint firstItem="9FX-Af-EjM" firstAttribute="centerX" secondItem="wQZ-IS-g1k" secondAttribute="centerX" id="ftJ-bt-Lpn"/>
                         </constraints>
                     </view>
                     <value key="contentSizeForViewInPopover" type="size" width="1920" height="1080"/>
                     <size key="freeformSize" width="1920" height="1080"/>
                     <connections>
                         <outlet property="importBtn" destination="dIM-JN-TWF" id="HE5-J6-feQ"/>
+                        <outlet property="timeSeg" destination="2Fr-Ok-Mve" id="NUY-rk-4DJ"/>
+                        <outlet property="typeSeg" destination="Vvg-RB-5xe" id="Vfa-fn-ViO"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="Entry" id="FbA-in-VbN"/>
                     </connections>
                 </viewController>
@@ -73,8 +103,8 @@
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="35"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1995.06" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eEx-v4-di5">
-                                <rect key="frame" x="1580" y="896" width="270" height="82.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1995.06" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eEx-v4-di5">
+                                <rect key="frame" x="1580" y="896" width="270.5" height="82.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="70"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -90,7 +120,7 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DBg-kH-Z9F" secondAttribute="trailing" constant="70" id="Pd6-UJ-CZc"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="DBg-kH-Z9F" secondAttribute="bottom" constant="50" id="Q2c-NH-4B5"/>
                             <constraint firstItem="DBg-kH-Z9F" firstAttribute="top" secondItem="eEx-v4-di5" secondAttribute="bottom" constant="10" id="e7t-Pf-guL"/>
-                            <constraint firstItem="eEx-v4-di5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" priority="900" constant="1580" id="v1g-1f-JUR"/>
+                            <constraint firstItem="eEx-v4-di5" firstAttribute="leading" relation="lessThanOrEqual" secondItem="6Tk-OE-BBY" secondAttribute="leading" priority="900" constant="1580" id="v1g-1f-JUR"/>
                             <constraint firstItem="RXy-Ox-fYs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="wgw-FK-luj"/>
                         </constraints>
                     </view>
