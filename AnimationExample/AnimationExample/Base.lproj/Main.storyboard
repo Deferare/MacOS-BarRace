@@ -39,6 +39,7 @@
                                             <constraint firstAttribute="width" constant="300" id="oGd-YE-fiy"/>
                                         </constraints>
                                         <segments>
+                                            <segment title="1m"/>
                                             <segment title="3m"/>
                                             <segment title="5m"/>
                                             <segment title="10m"/>

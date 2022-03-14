@@ -24,17 +24,22 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
         
         self.importBtn.layer.masksToBounds = false
         self.importBtn.layer.cornerRadius = 15
-        
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let VC = segue.destination as? BarRaceViewController else {return}
         VC.datas = self.importDatas
         VC.dType = self.typeSeg.selectedSegmentIndex
-        let selec = self.timeSeg.selectedSegmentIndex
-        if selec == 0 {VC.timeBias = 50}
-        else if selec == 1 {VC.timeBias = 100}
-        else if selec == 2 {VC.timeBias = 150}
+        let tIndex = self.timeSeg.selectedSegmentIndex
+        if tIndex == 0{
+            VC.tBias = 60
+        } else if tIndex == 1{
+            VC.tBias = 180
+        } else if tIndex == 2{
+            VC.tBias = 300
+        } else{
+            VC.tBias = 600
+        }
     }
 }
 
@@ -44,11 +49,9 @@ extension FileImportViewController{
         
         docuPickerVC = UIDocumentPickerViewController(forOpeningContentTypes: supportedTypes, asCopy: true)
         docuPickerVC.delegate = self
-//        docuPickerVC.directoryURL =
         docuPickerVC.allowsMultipleSelection = false
         docuPickerVC.shouldShowFileExtensions = true
         self.present(docuPickerVC, animated: true, completion: nil)
-        
     }
     
     func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
@@ -66,7 +69,7 @@ extension FileImportViewController{
                     if i != 0{
                         for j in 0..<crnt.count{
                             if j != 0{
-                                crnt2.append(Float(crnt[j])!)
+                                crnt2.append(CGFloat(Float(crnt[j].description)!))
                             }else{
                                 let date = String(crnt[j])
                                 crnt2.append(Date(date))
@@ -77,7 +80,6 @@ extension FileImportViewController{
                     }
                     self.importDatas.append(crnt2)
                 }
-//                print(self.importDatas)
                 self.performSegue(withIdentifier: "Entry", sender: nil)
             }catch {print(error.localizedDescription)}
         }

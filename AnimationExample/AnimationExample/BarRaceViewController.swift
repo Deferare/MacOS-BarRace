@@ -15,10 +15,12 @@ class BarRaceViewController: UIViewController {
     @IBOutlet var stackView:UIStackView!
     @IBOutlet var year:UILabel!
     
-    var datas = [[Any]]()
-    var timeBias:Int!
-    var dType:Int!
     
+    var datas = [[Any]]()
+    var tBias = 0
+    var dType = 0
+    
+    // 600 = 3.75 * 160
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,14 +28,15 @@ class BarRaceViewController: UIViewController {
         self.stackView.addGestureRecognizer(gesture)
         
         print("Start - @@@@@@@@@@@@@")
+        
         print(self.datas[0])
         print(self.datas[1])
-        print(self.timeBias, self.dType)
+        print(self.tBias, self.dType)
+
     }
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.createSetView()
-        self.year.text = "\(self.datas[1][0])"
     }
 }
 
@@ -41,6 +44,7 @@ extension BarRaceViewController{
 
     
     func createSetView(){
+        self.year.text = "\(self.datas[1][0])"
         for i in 1..<self.datas[0].count{
             let barView: UIView = {
                 let view = UIView()
@@ -49,12 +53,19 @@ extension BarRaceViewController{
                                                   blue: CGFloat.random(in: 0.2...0.8),
                                                   alpha: 1)
                 view.translatesAutoresizingMaskIntoConstraints = false
-                if let conValue = self.datas[1][i] as? Float{
+                
+                
+                if let conValue = self.datas[1][i] as? CGFloat{
                     view.widthAnchor.constraint(equalToConstant: CGFloat(conValue)).isActive = true
                 }
                 
+                
+                
                 let nameLabel:UILabel = {
                     let LV = UILabel()
+                    
+                    
+                    
                     LV.text = "\(self.datas[0][i])"
                     LV.font = .systemFont(ofSize: 15, weight: .semibold)
                     LV.textAlignment = .left
@@ -70,8 +81,13 @@ extension BarRaceViewController{
                 
                 let valueLable:UILabel = {
                     let LV = UILabel()
-                    if let conValue = self.datas[1][i] as? Float{
-                        LV.text = "\(CGFloat(conValue))"
+                    if let v = self.datas[1][i] as? CGFloat{
+                        print(v)
+                        if self.dType == 0{
+                            LV.text = String(Int(v))
+                        } else{
+                            LV.text = String(format: "%.1f", v)
+                        }
                     }
                     LV.font = .systemFont(ofSize: 15, weight: .regular)
                     LV.textAlignment = .left
@@ -99,44 +115,53 @@ extension BarRaceViewController{
     // MaxBarWidth = 1795
     @objc func startRealTime(){
         print("@@@@@@@@@ startRealTime")
-        // Sorting.
-//        var bias = 1
-//        Timer.scheduledTimer(withTimeInterval: -1, repeats: true) { timer in
-//            for i in bias..<self.datas[0].count-1{
-//                let leftW = self.stackView.arrangedSubviews[i].constraints[0].constant
-//                print(leftW)
-//                for j in i+1..<self.datas[0].count{
-//                    let rightW = self.stackView.arrangedSubviews[j].constraints[0].constant
-//                    if leftW < rightW {
-//                        UIViewPropertyAnimator(duration: 0.5, curve: .easeOut){
-//                            let tmp = self.stackView.arrangedSubviews[i]
-//                            self.stackView.insertArrangedSubview(self.stackView.arrangedSubviews[j], at: i)
-//                            self.stackView.insertArrangedSubview(tmp, at: j)
-//                        }.startAnimation()
-//                        break
-//                    }
-//                }
-//            }
-//            bias += 1
-//            if bias == self.datas[0].count{bias = 1}
-//        }
         
-        // Value changing
+
+        self.valueChange()
+    }
+    
+    func sortingBar(_ i:Int,_ j:Int) {
+        if let above = self.stackView.arrangedSubviews[i].subviews[1] as? UILabel{
+            let aboveValue = Float(above.text!)!
+            if let below = self.stackView.arrangedSubviews[j].subviews[1] as? UILabel{
+                let belowValue = Float(below.text!)!
+                if aboveValue < belowValue {
+                    UIViewPropertyAnimator(duration: 0.5, curve: .easeOut){
+                        let tmp = self.stackView.arrangedSubviews[i]
+                        self.stackView.insertArrangedSubview(self.stackView.arrangedSubviews[j], at: i)
+                        self.stackView.insertArrangedSubview(tmp, at: j)
+                    }.startAnimation()
+                }
+            }
+        }
+    }
+    
+    func valueChange(){
         var index = 2
-        
-        Timer.scheduledTimer(withTimeInterval: 10, repeats: true){t in
+        let tBias = Double(self.tBias)/Double(self.datas.count)
+        let valueChangeSpeed = CGFloat(10)
+        print(tBias)
+        Timer.scheduledTimer(withTimeInterval: tBias, repeats: true){t in
             for j in 1..<self.datas[0].count{
-                guard let S = self.datas[index][j] as? Float else {return}
-                let eachValue = S/Float(self.timeBias)
+                guard let S = self.datas[index][j] as? CGFloat else{return}
+                let eachValue = S/valueChangeSpeed
                 var k = 0
-                Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true){t2 in
-                    if let subView = self.stackView.arrangedSubviews[j-1].subviews[1] as? UILabel{
-                        if let subViewValue = Float(subView.text!) {
-                            subView.text = "\(subViewValue + eachValue)"
+                if let subValue = self.stackView.arrangedSubviews[j-1].subviews[1] as? UILabel{
+                    Timer.scheduledTimer(withTimeInterval: tBias/valueChangeSpeed, repeats: true){t2 in
+                        if let subViewValue = Float(subValue.text!) {
+                            if self.dType == 0{
+                                subValue.text = String(Int(CGFloat(subViewValue) + CGFloat(eachValue)))
+                            }else{
+                                subValue.text = String(format: "%.1f", (CGFloat(subViewValue) + CGFloat(eachValue)))
+                            }
+//                            UIViewPropertyAnimator(duration: 0.5, curve: .easeInOut){
+//                                self.stackView.arrangedSubviews[j-1].constraints[0].constant += CGFloat(subViewValue)/10
+//                                self.stackView.layoutIfNeeded()
+//                            }.startAnimation()
                         }
+                        k += 1
+                        if k == Int(valueChangeSpeed) {t2.invalidate()}
                     }
-                    k += 1
-                    if k == self.timeBias {t2.invalidate()}
                 }
             }
             print(index)
@@ -145,6 +170,8 @@ extension BarRaceViewController{
         }
     }
 }
+
+
 
 
 
