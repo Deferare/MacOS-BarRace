@@ -15,8 +15,8 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
     @IBOutlet var timeSeg:UISegmentedControl!
     @IBOutlet var importBtn:UIButton!
     
-    
-    var importDatas = [[Any]]()
+    var keys = [Substring.SubSequence]()
+    var importDatas = Dictionary<String, [Any]>()
     var docuPickerVC:UIDocumentPickerViewController!
     
     override func viewDidLoad() {
@@ -40,6 +40,9 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
         } else{
             VC.tBias = 600
         }
+        for key in keys{
+            VC.keys.append(String(key))
+        }
     }
 }
 
@@ -62,23 +65,20 @@ extension FileImportViewController{
                 let attStr = try NSAttributedString(data: data, documentAttributes: .none)
                 let dataText = attStr.string
                 let dataText2 = dataText.split(separator: "\r\n")
-                
-                for i in 0..<dataText2.count{
+                self.keys = dataText2[0].split(separator: ",")
+                for name in keys{
+                    self.importDatas[String(name)] = [Any]()
+                }
+                for i in 1..<dataText2.count{
                     let crnt = dataText2[i].split(separator: ",")
-                    var crnt2 = [Any]()
-                    if i != 0{
-                        for j in 0..<crnt.count{
-                            if j != 0{
-                                crnt2.append(CGFloat(Float(crnt[j].description)!))
-                            }else{
-                                let date = String(crnt[j])
-                                crnt2.append(Date(date))
-                            }
+                    for j in 0..<crnt.count{
+                        if j == 0{
+                            let date = String(crnt[j])
+                            self.importDatas[String(keys[j])]?.append(Date(date))
+                        } else{
+                            self.importDatas[String(keys[j])]?.append(CGFloat(Float(crnt[j].description)!))
                         }
-                    } else{
-                        crnt2 = crnt.map {String($0)}
                     }
-                    self.importDatas.append(crnt2)
                 }
                 self.performSegue(withIdentifier: "Entry", sender: nil)
             }catch {print(error.localizedDescription)}
