@@ -17,8 +17,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        windowScene.sizeRestrictions?.maximumSize = .init(width: 1920/2, height: 1080/2)
-        windowScene.sizeRestrictions?.minimumSize = .init(width: 1920/2, height: 1080/2)
+        let wid = UIScreen.main.bounds.width
+        let hei = UIScreen.main.bounds.height
+        windowScene.sizeRestrictions?.maximumSize = .init(width: wid, height: hei)
+        windowScene.sizeRestrictions?.minimumSize = .init(width: wid-(wid/5), height: hei-(hei/5))
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

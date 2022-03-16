@@ -18,6 +18,7 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
     var keys = [Substring.SubSequence]()
     var importDatas = Dictionary<String, [Any]>()
     var docuPickerVC:UIDocumentPickerViewController!
+    var sumMax = CGFloat(0)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,8 +42,21 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
             VC.tBias = 600
         }
         for key in keys{
-            VC.keys.append(String(key))
+            let key = String(key)
+            VC.keys.append(key)
+            if key != "Date"{
+                var c = CGFloat(0)
+                for v in self.importDatas[key]!{
+                    if let v = v as? CGFloat{
+                        c += v
+                    }
+                }
+                if c > self.sumMax{
+                    self.sumMax = c
+                }
+            }
         }
+        VC.constBias = (UIScreen.main.bounds.width-200)/self.sumMax
     }
 }
 
@@ -74,7 +88,7 @@ extension FileImportViewController{
                     for j in 0..<crnt.count{
                         if j == 0{
                             let date = String(crnt[j])
-                            self.importDatas[String(keys[j])]?.append(Date(date))
+                            self.importDatas[String(keys[j])]?.append(String(date))
                         } else{
                             self.importDatas[String(keys[j])]?.append(CGFloat(Float(crnt[j].description)!))
                         }
@@ -88,14 +102,4 @@ extension FileImportViewController{
 
 struct TestData: Codable{
     var Untitled:Dictionary<String,String>
-}
-
-
-extension Date{
-    init(_ dateString:String) {
-        let dateStringFormatter = DateFormatter()
-        dateStringFormatter.dateFormat = "yyyy-MM-dd-HH"
-        let date = dateStringFormatter.date(from: dateString)!
-        self = date
-    }
 }
