@@ -56,7 +56,10 @@ class FileImportViewController: UIViewController, UIDocumentPickerDelegate {
                 }
             }
         }
-        VC.constBias = (UIScreen.main.bounds.width-200)/self.sumMax
+        
+
+//        VC.constBias = 2230/self.sumMax // For my.
+        VC.constBias = (UIScreen.main.bounds.width-250)/self.sumMax
     }
 }
 

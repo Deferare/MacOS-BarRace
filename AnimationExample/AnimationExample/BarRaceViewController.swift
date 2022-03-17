@@ -54,10 +54,12 @@ extension BarRaceViewController{
                     let LV = UILabel()
                     
                     LV.text = "\(self.keys[i])"
-                    LV.font = .systemFont(ofSize: 17, weight: .semibold)
+                    LV.font = .systemFont(ofSize: 30, weight: .semibold)
                     LV.numberOfLines = 5
                     LV.textAlignment = .left
                     LV.lineBreakMode = .byWordWrapping
+                    LV.shadowColor = .systemGroupedBackground
+                    LV.shadowOffset = .init(width: 0.5, height: 0.5)
                     return LV
                 }()
                 
@@ -66,7 +68,7 @@ extension BarRaceViewController{
                 nameLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 7).isActive = true
                 nameLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
                 nameLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-                nameLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 100).isActive = true
+                nameLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 200).isActive = true
                 
                 let valueLable:UILabel = {
                     let LV = UILabel()
@@ -77,11 +79,9 @@ extension BarRaceViewController{
                             LV.text = String(format: "%.1f", v)
                         }
                     }
-
-                    LV.font = .systemFont(ofSize: 16, weight: .regular)
+                    LV.font = .systemFont(ofSize: 25, weight: .regular)
+                    LV.textColor = .tintColor
                     LV.textAlignment = .right
-                    LV.shadowColor = .systemGroupedBackground
-                    LV.shadowOffset = .init(width: 0.5, height: 0.5)
                     return LV
                 }()
                 
@@ -91,8 +91,6 @@ extension BarRaceViewController{
                 valueLable.leadingAnchor.constraint(equalTo: view.subviews[0].trailingAnchor, constant: 7).isActive = true
                 valueLable.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
                 valueLable.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-                
-                
                 return view
                 }()
 
@@ -106,13 +104,15 @@ extension BarRaceViewController{
     
     @objc func startRealTime(){
         if self.startLife > 1{
-            self.startLife -= 1
-            self.valueChange()
-            self.sortingBar()
+            Timer.scheduledTimer(withTimeInterval: 1, repeats: false){_ in
+                self.startLife -= 1
+                self.valueChangeRealtime()
+                self.sortingBarRealtime()
+            }
         }
     }
     
-    func sortingBar(){
+    func sortingBarRealtime(){
         Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true){t in
             for i in 0..<self.keys.count-2{
                 for j in i+1..<self.keys.count-1{
@@ -137,7 +137,7 @@ extension BarRaceViewController{
         }
     }
     
-    func valueChange(){
+    func valueChangeRealtime(){
         var index = 1
         let tBias = Double(self.tBias)/Double(self.datas[self.keys[0]]!.count)
         let valueChangeSpeed = CGFloat(10)
@@ -176,6 +176,6 @@ extension BarRaceViewController{
                 t.invalidate()
                 self.startLife -= 1
             }
-        }
+        }.fire()
     }
 }

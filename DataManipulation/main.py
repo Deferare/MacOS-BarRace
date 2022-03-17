@@ -36,19 +36,15 @@ for cd in candidates:
             M = int(date[5:7])
             D = int(date[8:10])
             T = int(date[11:13])
-
-            print(Y, M, D)
-            date2 = str(datetime.datetime(Y,M,D,T))
-            date3 = date2[:10] + "-" + date2[11:13]
-            # date2 = f"{Y}:{M}:{D}:{T}"
-            # print(date)
-            datas[0].append(date3)
+            date = f"{Y}.{M}.{D} {T}h"
+            datas[0].append(date)
     i += 1
+
 
 df = pd.DataFrame(datas)
 df = df.transpose()
 
-# print(df.info)
-print(df)
+print(df.info)
+# print(df)
 
-df.to_csv("/Users/deforeturn/Documents/Github/Data-Visualization-Program./DataManipulation/datas.csv")
+df.to_csv("/Users/deforeturn/Documents/Github/Data-Visualization-Program./DataManipulation/datas2.csv", index = False)

@@ -20,7 +20,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let wid = UIScreen.main.bounds.width
         let hei = UIScreen.main.bounds.height
         windowScene.sizeRestrictions?.maximumSize = .init(width: wid, height: hei)
-        windowScene.sizeRestrictions?.minimumSize = .init(width: wid-(wid/5), height: hei-(hei/5))
+        windowScene.sizeRestrictions?.minimumSize = .init(width: wid, height: hei)
+        windowScene.title = "BarRace"
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
